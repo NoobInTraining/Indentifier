@@ -40,12 +40,13 @@ namespace Indentifier
 
 					ToIndent = string.Join(Environment.NewLine, lines);
 					isNotCopied = true;
-				});
+				}
+			);
 
 			CopyToClipboard = new EigeneKlassen.WPF.Commands.GeneralCommand(
 				o => isNotCopied && !string.IsNullOrWhiteSpace(ToIndent) ,
 				o => { System.Windows.Clipboard.SetText(ToIndent); isNotCopied = false; }
-				);
+			);
 		}
 
 		#region [ Identifiert ]
