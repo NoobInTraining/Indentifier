@@ -14,7 +14,7 @@ namespace Indentifier
 		public Viewmodel()
 		{
 			Tabify = new EigeneKlassen.WPF.Commands.GeneralCommand(
-				o => !string.IsNullOrWhiteSpace(ToIndent) && !string.IsNullOrWhiteSpace(Identifiert),
+				o => !string.IsNullOrWhiteSpace(ToIndent) && !string.IsNullOrEmpty(Identifiert),
 				o =>
 				{
 					//split the input
