@@ -4,9 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Indentifier"
+        d:DataContext="{d:DesignInstance local:Viewmodel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <DockPanel Margin="5,0,5,5">
+        <TextBlock DockPanel.Dock="Top">This Tool allowes you do indent the passed string by an identifier</TextBlock>
+        <DockPanel DockPanel.Dock="Right" LastChildFill="False">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Margin="0,0,10,0">Identtifier string:</TextBlock>
+                <TextBox MinWidth="40" Text="{Binding Identifiert, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <DockPanel LastChildFill="False" DockPanel.Dock="Top" Margin="0,5">
+                <TextBlock DockPanel.Dock="Left">Case sensitive:</TextBlock>
+                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding CaseSensitive}"></CheckBox>
+            </DockPanel>
+            <Button DockPanel.Dock="Bottom" Command="{Binding Tabify}" Margin="0,0,0,2">Indentify</Button>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Left" Margin="0,0,5,0">
+            <TextBlock DockPanel.Dock="Top">Input Box</TextBlock>
+            <Grid DockPanel.Dock="Bottom">
+                <TextBox Text="{Binding ToIndent, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="False"
+                     FontFamily="GenericMonospace"/>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding CopyToClipboard}" Margin="0,0,3,3" Padding="5,0">Copy to clipboard</Button>
+            </Grid>
+        </DockPanel>
         
-    </Grid>
+    </DockPanel>
 </Window>

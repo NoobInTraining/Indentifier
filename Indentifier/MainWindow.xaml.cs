@@ -23,6 +23,7 @@ namespace Indentifier
 		public MainWindow()
 		{
 			InitializeComponent();
+			this.DataContext = new Viewmodel();
 		}
 	}
 }
