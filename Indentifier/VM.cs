@@ -9,7 +9,7 @@ namespace Indentifier
 {
 	class Viewmodel : EigeneKlassen.WPF.BaseNotifyPropertyChanged
 	{
-		private bool isNotCopied = true;
+		private bool isNotCopied = false;
 
 		public Viewmodel()
 		{
@@ -17,25 +17,40 @@ namespace Indentifier
 				o => !string.IsNullOrWhiteSpace(ToIndent) && !string.IsNullOrEmpty(Identifiert),
 				o =>
 				{
+					//generate teh pattern
+					Regex pattern;
+					if (singleWord)
+						pattern = new Regex(@"\b" + identi + @"\b", caseSensi ? RegexOptions.None : RegexOptions.IgnoreCase);
+					else
+						pattern = new Regex(identi, caseSensi ? RegexOptions.None : RegexOptions.IgnoreCase);
+
 					//split the input
 					var lines = Regex.Split(toIndet, Environment.NewLine);
 					//Find the highest index
-					int index = 0;
-					Array.ForEach(lines, l => index = (l.IndexOf(identi) > index) ? l.IndexOf(identi) : index);
+					int index = 0;					
+					foreach (var line in lines)
+					{
+						var tmpIdx = pattern.Match(line).Index;
+						if (tmpIdx > index)
+							index = tmpIdx;
+					}
 
 					//intterate thorugh each line
 					for (int i = 0; i < lines.Length; i++)
 					{
-						if (!Regex.IsMatch(lines[i], identi, caseSensi? RegexOptions.None : RegexOptions.IgnoreCase))
+						
+						if (!pattern.IsMatch(lines[i]))
 							continue;
 
+						var tmpMatch = pattern.Match(lines[i]);
+
 						//split by the identifier thus removing it
-						var splitted = Regex.Split(lines[i], identi, caseSensi ? RegexOptions.None : RegexOptions.IgnoreCase);
-						lines[i] = splitted[0].PadRight(index) + identi + splitted[1].TrimStart();
+						var splitted = pattern.Split(lines[i]);
+						lines[i] = splitted[0].PadRight(index) + tmpMatch.Value + splitted[1];
 
 						//add any other lines that might exist
 						for (int j = 2; j < splitted.Length; j++)						
-							lines[j] += identi + splitted[j];
+							lines[j] += tmpMatch.Value + splitted[j];
 					}
 
 					ToIndent = string.Join(Environment.NewLine, lines);
@@ -114,6 +129,28 @@ namespace Indentifier
 		}
 
 		#endregion [ CaseSensitive ] 
+
+		#region [ SingleWord ]
+
+		bool singleWord = true;
+
+		public bool SingleWord
+		{
+			get
+			{
+				return singleWord;
+			}
+			set
+			{
+				if (singleWord != value)
+				{
+					singleWord = value;
+					RaisePropertyChanged(nameof(SingleWord));
+				}
+			}
+		}
+
+		#endregion [ SingleWord ] 
 
 		public EigeneKlassen.WPF.Commands.GeneralCommand Tabify { get; private set; }
 

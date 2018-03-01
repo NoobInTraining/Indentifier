@@ -14,7 +14,11 @@
                 <TextBlock Margin="0,0,10,0">Identtifier string:</TextBlock>
                 <TextBox MinWidth="40" Text="{Binding Identifiert, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <DockPanel LastChildFill="False" DockPanel.Dock="Top" Margin="0,5">
+            <DockPanel LastChildFill="False" DockPanel.Dock="Top" Margin="0,5" ToolTip="Search for single word only (trailing and leading whitespace)">
+                <TextBlock DockPanel.Dock="Left">Single word:</TextBlock>
+                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding SingleWord}"></CheckBox>
+            </DockPanel>
+            <DockPanel LastChildFill="False" DockPanel.Dock="Top" Margin="0,5" ToolTip="Case sensitive search, default flase">
                 <TextBlock DockPanel.Dock="Left">Case sensitive:</TextBlock>
                 <CheckBox DockPanel.Dock="Right" IsChecked="{Binding CaseSensitive}"></CheckBox>
             </DockPanel>
